@@ -53,7 +53,7 @@ public class MansionsController {
     public ResponseEntity<Mansion> updateMansion(final @PathVariable("id") Integer mansionId,
             final @RequestBody Mansion mansion) {
         mansion.setId(mansionId);
-        HttpStatus status = mansions.put(mansion.getId(), mansion) == null ? HttpStatus.NOT_FOUND : HttpStatus.OK;
-        return ResponseEntity.status(status).build();
+        Mansion previonsMansion = mansions.replace(mansion.getId(), mansion);
+        return ResponseEntity.of(previonsMansion == null? Optional.empty() : Optional.of(previonsMansion));
     }
 }
